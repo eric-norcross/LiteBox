@@ -29,45 +29,38 @@ function LiteBox() {
     //PUBLIC METHODS
     open: function(content) {
       console.log("LiteBox - open()");
-      $("body").append('<div id="overlay"></div><div id="overlay-content"></div>');
+      $("body").append('<div id="overlay"><div id="overlay-content"></div></div>');
 
-      var overlayWidth = $(window).width();
-      var overlayHeight = $(window).height();
+      $("#overlay").on("click", null, this.close, function(event) {
+        // Close if clicked on background (#overlay)
+        if ($(event.target).is($(this))) {
+          event.data();
+        } else {
+          // console.log("do nothing");
+        }
+      });
 
-      if ($(document).width() > $(window).width()) {
-        overlayWidth = $(document).width();
-      }
+      //position it correctly after downloading
+      $("#overlay").css("display", "block");
 
-      if ($(document).height() > $(window).height()) {
-        overlayHeight = $(document).height();
-      }
-
-      $("#overlay").click(this.close);
-      $("#overlay").css({"width":overlayWidth, "height":overlayHeight});
-        //.css({"overflow-y":"hidden"});
-
-      //animate the semitransparant layer
-      $("#overlay").animate({"opacity":"0.8"}, 400, "linear");
-
-      //add the litebox image to the DOM
+      //add the content to the litebox
       $("#overlay-content").append(content);
 
-      var contentWidth = $("#overlay-content").width();
-      var contentHeight = $("#overlay-content").height();
+      var contentWidth = $("#overlay-content").outerWidth();
+      var contentHeight = $("#overlay-content").outerHeight();
 
-      console.log("contentWidth: " + contentWidth);
-      console.log("contentHeight: " + contentHeight);
+      // console.log("contentWidth: " + contentWidth);
+      // console.log("contentHeight: " + contentHeight);
 
-      $("#overlay-content").css({
-        "top":          "50%",
-        "left":         "50%",        
-        "width":        contentWidth,
-        "height":       contentHeight,
-        "margin-top":   - (contentHeight / 2),
-        "margin-left":  - (contentWidth / 2) //to position it in the middle
+      $("#overlay-content").css({      
+        "top":   "calc(50% - " + (contentHeight / 2) + "px)",
+        "left":  "calc(50% - " + (contentWidth / 2) + "px)" //to position it in the middle
       })
-      //position it correctly after downloading
-      $("#overlay-content").animate({"opacity":"1"}, 400, "linear");
+      
+
+      //animate the semitransparant layer
+      $("#overlay").animate({"opacity":"1"}, 400, "linear");
+
       /*
       Add back/next functionality
       */
@@ -76,8 +69,16 @@ function LiteBox() {
     }, 
 
     close: function() {
-      $("#overlay-content, #overlay").animate({"opacity":"0"}, 200, "linear", function(){
-        $("#overlay-content, #overlay").remove(); 
+      $("#overlay").animate({"opacity":"0"}, 200, "linear", function(){
+        $("#overlay").css("display", "none");
+        $("#overlay").remove(); 
+      });
+
+      $('#overlay-content').css({
+          '-webkit-transform': 'scale(.7)',
+             '-moz-transform': 'scale(.7)',
+               '-o-transform': 'scale(.7)',
+                  'transform': 'scale(.7)'
       });
     }
   }

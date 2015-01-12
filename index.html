@@ -12,13 +12,13 @@
       $(document).ready(function(){
         var litebox = new LiteBox();
 
-        // Load Whatever HTML you want; If it's got styles it will use them. 
+        // Load Whatever you want; If it's got styles, it will use them. 
         // One "gotcha" is that it's not setup to grab image sizes before calculating and centering the overlay, so you need to specify the width/height of images.
-        
-        // var content = '<img src="assets/images/sample.jpg" width="640" height="478">';
-        var content = '<div id="test"><h1>Test</h1><p>Some text</p></div>';
 
         $("#blah").click(function(){
+          // This could be an ajax return or whatever really. 
+          // var content = '<img src="assets/images/sample.jpg" width="640" height="478">';
+          var content = '<div id="test"><h1>Test</h1><p>Some text</p></div>';
           litebox.open(content);
         });
       });

@@ -1,7 +1,7 @@
 LiteBox
 =======
 
-A Light weight Lightbox for quick and easy integration 
+A Light weight Lightbox for quick and easy integration. It may not be feature rich, but it's easy and it works.
 
 Version: 0.1
 
