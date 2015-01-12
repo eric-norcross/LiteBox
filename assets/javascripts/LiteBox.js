@@ -27,9 +27,9 @@ function LiteBox() {
 
     
     //PUBLIC METHODS
-    open: function(content, contentWidth, contentHeight) {
+    open: function(content) {
       console.log("LiteBox - open()");
-      $("body").append('<div class="overlay"></div><div class="container"></div>');
+      $("body").append('<div id="overlay"></div><div id="overlay-content"></div>');
 
       var overlayWidth = $(window).width();
       var overlayHeight = $(window).height();
@@ -42,17 +42,23 @@ function LiteBox() {
         overlayHeight = $(document).height();
       }
 
-      $(".overlay").click(this.close);
-      $(".overlay").css({"width":overlayWidth, "height":overlayHeight});
+      $("#overlay").click(this.close);
+      $("#overlay").css({"width":overlayWidth, "height":overlayHeight});
         //.css({"overflow-y":"hidden"});
 
       //animate the semitransparant layer
-      $(".overlay").animate({"opacity":"0.8"}, 400, "linear");
+      $("#overlay").animate({"opacity":"0.8"}, 400, "linear");
 
       //add the litebox image to the DOM
-      $(".container").append(content);
+      $("#overlay-content").append(content);
 
-      $(".container").css({
+      var contentWidth = $("#overlay-content").width();
+      var contentHeight = $("#overlay-content").height();
+
+      console.log("contentWidth: " + contentWidth);
+      console.log("contentHeight: " + contentHeight);
+
+      $("#overlay-content").css({
         "top":          "50%",
         "left":         "50%",        
         "width":        contentWidth,
@@ -61,7 +67,7 @@ function LiteBox() {
         "margin-left":  - (contentWidth / 2) //to position it in the middle
       })
       //position it correctly after downloading
-      $(".container").animate({"opacity":"1"}, 400, "linear");
+      $("#overlay-content").animate({"opacity":"1"}, 400, "linear");
       /*
       Add back/next functionality
       */
@@ -70,8 +76,8 @@ function LiteBox() {
     }, 
 
     close: function() {
-      $(".container, .overlay").animate({"opacity":"0"}, 200, "linear", function(){
-        $(".container, .overlay").remove(); 
+      $("#overlay-content, #overlay").animate({"opacity":"0"}, 200, "linear", function(){
+        $("#overlay-content, #overlay").remove(); 
       });
     }
   }
